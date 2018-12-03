@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
@@ -111,9 +112,34 @@ public class SpotifyBlocker {
 
             case "unblock":
 
+                File tempFile = new File(HOSTS_PATH + "temp");
+                PrintWriter pw = new PrintWriter(new FileWriter(tempFile, true));
+
+                OUTER:
                 while ((in = fr.readLine()) != null) {
-                    System.out.println("we unblocking");
+
+                    if (in.matches(DELIMIT)) {
+
+                        while (true) {
+                            fr.readLine();
+
+                            if (in.matches(DELIMIT)) {
+                                break OUTER;
+                            }
+
+                        }
+
+                    }
+                    System.out.println(in);
+                    pw.println(in);
+                    pw.flush();
+
                 }
+                pw.close();
+                fr.close();
+
+                file.delete();
+                tempFile.renameTo(new File(HOSTS_PATH));
 
                 break;
 
