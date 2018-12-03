@@ -14,7 +14,7 @@ import java.io.PrintWriter;
  */
 public class SpotifyBlocker {
 
-    private static final String DELIMIT = "####SPOTIFYBLOCKER####";
+    private static final String DELIMIT = "####SPOTIFYADBLOCKER####";
 
     private static String HOSTS_TO_BLOCK
             = String.format(DELIMIT + "%n"
@@ -68,15 +68,18 @@ public class SpotifyBlocker {
     private String HOSTS_PATH = (OS.contains("windows") ? WINDOWS : (OS.contains("mac") ? MAC : GNULINUX));
     private String blockOrUnblock;
 
+    private static final String BLOCK = "block";
+    private static final String UNBLOCK = "unblock";
+
     public SpotifyBlocker(String blockOrUnblock) throws FileNotFoundException, IOException {
 
         this.blockOrUnblock = blockOrUnblock;
         block();
     }
 
-    public SpotifyBlocker(String blockOrNot, String customHostsPath) throws FileNotFoundException, IOException {
+    public SpotifyBlocker(String blockOrUnblock, String customHostsPath) throws FileNotFoundException, IOException {
 
-        this.blockOrUnblock = blockOrNot;
+        this.blockOrUnblock = blockOrUnblock;
         this.HOSTS_PATH = customHostsPath;
         block();
 
@@ -94,7 +97,6 @@ public class SpotifyBlocker {
         switch (blockOrUnblock.toLowerCase()) {
 
             case "block":
-
                 while ((in = fr.readLine()) != null) {
 
                     if (in.matches(DELIMIT)) {
@@ -102,7 +104,6 @@ public class SpotifyBlocker {
                         fr.close();
                         break SW;
                     }
-
                 }
 
                 FileWriter fw = new FileWriter(file, true);
@@ -111,7 +112,6 @@ public class SpotifyBlocker {
                 break;
 
             case "unblock":
-
                 File tempFile = new File(HOSTS_PATH + "temp");
                 PrintWriter pw = new PrintWriter(new FileWriter(tempFile, true));
 
@@ -126,9 +126,7 @@ public class SpotifyBlocker {
                             if (in.matches(DELIMIT)) {
                                 break OUTER;
                             }
-
                         }
-
                     }
                     System.out.println(in);
                     pw.println(in);
@@ -156,9 +154,7 @@ public class SpotifyBlocker {
             SpotifyBlocker sb = new SpotifyBlocker(args[0], args[1]);
 
         } else {
-
-            SpotifyBlocker sb = new SpotifyBlocker(args[0]);
-
+            SpotifyBlocker sb = new SpotifyBlocker((args[0].length() > 1 ? args[0] : "null"));
         }
     }
 
