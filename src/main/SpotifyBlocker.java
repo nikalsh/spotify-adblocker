@@ -154,7 +154,7 @@ public class SpotifyBlocker {
             SpotifyBlocker sb = new SpotifyBlocker(args[0], args[1]);
 
         } else {
-            SpotifyBlocker sb = new SpotifyBlocker((args.length > 1 ? args[0] : "null"));
+            SpotifyBlocker sb = new SpotifyBlocker((args.length == 0 ? "null" : args[0]));
         }
     }
 
