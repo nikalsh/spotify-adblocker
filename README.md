@@ -1,2 +1,2 @@
-# spotify_adblocker
-args[0] = "block" or "unblock"
+# spotify adblocker
+args[0] can be "block" or "unblock"
